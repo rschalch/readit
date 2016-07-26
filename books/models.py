@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils.timezone import now
 
 
 class Book(models.Model):
@@ -15,7 +16,20 @@ class Book(models.Model):
     is_favourite = models.BooleanField(default=False, verbose_name="Favourite ?")
 
     def __str__(self):
-        return self.title
+        return "{} by {}".format(self.title, self.list_authors())
+
+    def list_authors(self):
+        return ", ".join([author.name for author in self.authors.all()])
+
+    # we will override the save method using args and kwargs to
+    # ensure that we have access to future django implementations of the save method
+    def save(self, *args, **kwargs):
+        # if we are submitting a review and date_reviewed is empty or none or null
+        if self.review and self.date_reviewed is None:
+            self.date_reviewed = now()
+
+        # ensure the save method is called
+        super(Book, self).save(*args, **kwargs)
 
 
 class Author(models.Model):
