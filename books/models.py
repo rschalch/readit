@@ -6,7 +6,8 @@ from django.db import models
 class Book(models.Model):
     # primary key is auto-generated
     title = models.CharField(max_length=150)
-    author = models.CharField(max_length=70, help_text="Use pen name, not real name")
+    # author = models.CharField(max_length=70, help_text="Use pen name, not real name")
+    authors = models.ManyToManyField("Author", related_name="books")
     review = models.TextField(blank=True, null=True)  # field not required
     date_reviewed = models.DateTimeField(blank=True, null=True)
     # by default Django displays the field capitalizing the field and substituting underscores by spaces
@@ -15,3 +16,10 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=70, help_text="Use pen name, not real name", unique=True)
+
+    def __str__(self):
+        return self.name
