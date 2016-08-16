@@ -1,16 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Readit: Authors</title>
-  </head>
-  <body>
-    {% for author in authors %}
-      <h3>{{ author.name }}</h3>
-    {% endfor %}
+{% extends "base.html" %}
 
-  </body>
-</html>
+{% block content %}
+    {% for author in authors %}
+      <h3><a href="{% url "author-detail" author.pk %}">{{ author.name }}</a></h3>
+    {% endfor %}
+{% endblock %}
