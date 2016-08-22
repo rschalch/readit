@@ -1,5 +1,7 @@
 from django import forms
 
+from books.models import Book
+
 
 class ReviewForm(forms.Form):
     """
@@ -15,7 +17,13 @@ class ReviewForm(forms.Form):
         widget=forms.Textarea,
         min_length=300,
         error_messages={
-            'required':'Please enter your review!',
-            'min_length':'Please write at least 300 characters (you have written %(show_value)s)'
+            'required': 'Please enter your review!',
+            'min_length': 'Please write at least 300 characters (you have written %(show_value)s)'
         }
     )
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'authors']  # by default all fields are displayed but we can override the fields property
