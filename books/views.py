@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import HttpResponse
@@ -103,7 +104,7 @@ class ReviewList(View):
 
         return render(request, "list-to-review.html", context)
 
-
+@login_required
 def review_book(request, pk):
     """
     Review an individual book
@@ -118,6 +119,7 @@ def review_book(request, pk):
         if form.is_valid():
             book.is_favourite = form.cleaned_data['is_favourite']
             book.review = form.cleaned_data['review']
+            book.reviewed_by = request.user
             book.save()
 
             return redirect('review-books')

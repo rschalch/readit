@@ -26,7 +26,8 @@ class ReviewForm(forms.Form):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'authors']  # by default all fields are displayed but we can override the fields property
+        fields = ['title', 'authors',
+                  'reviewed_by']  # by default all fields are displayed but we can override the fields property
 
     def clean(self):
         # On overriding, super this method to mantain main validation and error messages
